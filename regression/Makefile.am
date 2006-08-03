@@ -2,10 +2,12 @@
 TESTS = BHeapTest
 
 # Set testing script with optional environment valiables
-TESTS_ENVIRONMENT = ./randomTest.sh
+TESTS_ENVIRONMENT = $(srcdir)/randomTest.sh
 
 #PARSER_INCLUDES += -I $(top_srcdir)/src
 MODULE_INCLUDES += -I $(top_srcdir)/src
+
+#EXTRA_CMA += $(PACKAGE).cma
 
 # OCaml parser call with flags
 AM_P4FLAGS := -pp "$(CAMLP4O) $(PARSER_INCLUDES) pa_log.cmo $(LOG)"
@@ -22,6 +24,7 @@ clean-am:
 	rm -fR testingResult*
 	rm -f $(addsuffix $(EXEEXT), $(TESTS))
 
+# Rules to build tests
 BHeapTest: $(addsuffix .cmx, DetRandom BHeapTest)
 	$(OCAMLOPT) $(BFLAGS) $(P4FLAGS) -o $@$(EXEEXT) $(EXTRA_CMXA) $(PACKAGE).cmxa DetRandom.cmx BHeapTest.cmx
 
