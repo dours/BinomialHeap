@@ -15,7 +15,7 @@ AM_P4FLAGS := -pp "$(CAMLP4O) $(PARSER_INCLUDES) pa_log.cmo $(LOG)"
 TARGET = 
 
 CLEAN_EXTRA += $(addsuffix $(EXEEXT), $(TESTS))
-CLEAN_EXTRA += *.diff *.log testingResult* *.cmi *.cmx
+CLEAN_EXTRA += *.diff *.log testingResult* *.cmi *.cmx *.o
 
 include $(top_srcdir)/m4/Makefile.am.targets
 
