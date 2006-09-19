@@ -1,32 +1,26 @@
-# List all tests to run
 TESTS = BHeapTest
 
-# Set testing script with optional environment valiables
 TESTS_ENVIRONMENT = $(srcdir)/randomTest.sh
+
+include $(top_srcdir)/m4/Makefile.am.vars
 
 #PARSER_INCLUDES += -I $(top_srcdir)/src
 MODULE_INCLUDES += -I $(top_srcdir)/src
 
-#EXTRA_CMA += $(PACKAGE).cma
+EXTRA_CMA += $(PACKAGE).cma
 
 # OCaml parser call with flags
 AM_P4FLAGS := -pp "$(CAMLP4O) $(PARSER_INCLUDES) pa_log.cmo $(LOG)"
-#AM_P4FLAGS = -pp "$(CAMLP4R) $(PARSER_INCLUDES)"
 
-# bytecode compiling flags
-AM_BFLAGS = -w p $(MODULE_INCLUDES) $(DEBUG)
-# native (optimized) compiling flags
-AM_OFLAGS = -w p $(MODULE_INCLUDES) $(DEBUG)
+TARGET = 
 
-# Clean all generated output
-clean-am:
-	rm -f *.cmi *.cmx *.o
-	rm -fR testingResult*
-	rm -f $(addsuffix $(EXEEXT), $(TESTS))
+CLEAN_EXTRA += $(addsuffix $(EXEEXT), $(TESTS))
+CLEAN_EXTRA += *.diff *.log testingResult* *.cmi *.cmx
+
+include $(top_srcdir)/m4/Makefile.am.targets
 
 # Rules to build tests
 BHeapTest: $(addsuffix .cmx, DetRandom BHeapTest)
-	$(OCAMLOPT) $(BFLAGS) $(P4FLAGS) -o $@$(EXEEXT) $(EXTRA_CMXA) $(PACKAGE).cmxa DetRandom.cmx BHeapTest.cmx
+	$(OCAMLOPT) $(OFLAGS) $(EXTRA_CMXA) $(P4FLAGS) -o $@$(EXEEXT) $(addsuffix .cmx, DetRandom BHeapTest)
 
-%.cmx: %.ml
-	$(OCAMLOPT) -c $(OFLAGS) $(P4FLAGS) $<
+include $(top_srcdir)/m4/Makefile.am.rules
