@@ -17,7 +17,7 @@ let _ =
   let { state = s } as drs = loadState "randseed" in
   let last = ref 0. in
 (*  while true do*)
-  let testSize = 20000 in
+  let testSize = 1000000 in
     let h = ref H.empty in 
     let ar = Array.make (testSize + 1) min_int in
     begin
