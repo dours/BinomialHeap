@@ -1,6 +1,6 @@
 TESTS = BHeapTest
 
-TESTS_ENVIRONMENT = $(srcdir)/randomTest.sh
+TESTS_ENVIRONMENT = EXEEXT=$(EXEEXT) $(srcdir)/randomTest.sh
 
 include $(top_srcdir)/m4/Makefile.am.vars
 
@@ -10,7 +10,12 @@ MODULE_INCLUDES += -I $(top_srcdir)/src
 EXTRA_CMA += $(PACKAGE).cma
 
 # OCaml parser call with flags
-AM_P4FLAGS := -pp "$(CAMLP4O) $(PARSER_INCLUDES) pa_log.cmo $(LOG)"
+AM_P5FLAGS := -pp "$(CAMLP5O) $(PARSER_INCLUDES) pa_log.cmo $(LOG)"
+
+# overwrite some variables
+PXFLAGS = $(P5FLAGS)
+CAMLPXLIB = $(CAMLP5LIB)
+MODULE_INCLUDES += -I $(CAMLP5LIB)
 
 TARGET = 
 
@@ -21,6 +26,6 @@ include $(top_srcdir)/m4/Makefile.am.targets
 
 # Rules to build tests
 BHeapTest: $(addsuffix .cmx, DetRandom BHeapTest)
-	$(OCAMLOPT) $(OFLAGS) $(EXTRA_CMXA) $(P4FLAGS) -o $@$(EXEEXT) $(addsuffix .cmx, DetRandom BHeapTest)
+	$(OCAMLOPT) $(OFLAGS) $(EXTRA_CMXA) $(PXFLAGS) -o $@$(EXEEXT) $(addsuffix .cmx, DetRandom BHeapTest)
 
 include $(top_srcdir)/m4/Makefile.am.rules

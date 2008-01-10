@@ -1,7 +1,6 @@
-
 # type in sources here
-SOURCES = BinomialHeap.ml
-MLI = BinomialHeap.mli
+SOURCES = binomialHeap.ml
+MLI = binomialHeap.mli
 
 include $(top_srcdir)/m4/Makefile.am.vars
 
@@ -11,7 +10,12 @@ include $(top_srcdir)/m4/Makefile.am.vars
 CMO := $(SORTED:.ml=.cmo)
 
 # OCaml parser call with flags
-AM_P4FLAGS := -pp "$(CAMLP4O) $(PARSER_INCLUDES) pa_log.cmo $(LOG)"
+AM_P5FLAGS := -pp "$(CAMLP5O) $(PARSER_INCLUDES) pa_log.cmo $(LOG)"
+
+# overwrite some variables
+PXFLAGS = $(P5FLAGS)
+CAMLPXLIB = $(CAMLP5LIB)
+MODULE_INCLUDES += -I $(CAMLP5LIB)
 
 include $(top_srcdir)/m4/Makefile.am.targets
 
